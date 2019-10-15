@@ -1,18 +1,13 @@
-import 'dart:async';
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:jasarevic_arnela/http/http.dart';
 import 'package:jasarevic_arnela/models/image_versions.dart';
 import 'package:jasarevic_arnela/models/images_list.dart';
 
-const String numberOfElementsPerPage = '30';
+const String _numberOfElementsPerPage = '30';
 
 class ImagesProvider extends ChangeNotifier {
-  ImagesProvider() {
-//    getData(1);
-  }
-
   final List<ImageVersionShutterStock> _images = [];
   ErrorProvider _error;
 
@@ -33,32 +28,21 @@ class ImagesProvider extends ChangeNotifier {
 
   Future<dynamic> getData(int pageNumber) async {
     try {
-      final HttpClient httpClient = HttpClient();
-      HttpClientRequest request;
+      final _apiService = ApiService();
       final Map<String, String> queryParameters = {
-        'per_page': numberOfElementsPerPage,
+        'per_page': _numberOfElementsPerPage,
         'page': pageNumber.toString(),
       };
-      request = await httpClient.getUrl(Uri.https(
-          'api.shutterstock.com', '/v2/images/search', queryParameters));
-      request.headers.set(HttpHeaders.contentTypeHeader, 'application/json');
-      request.headers.set(
-          HttpHeaders.authorizationHeader,
-          'Basic ${base64Encode(utf8.encode('0222c-'
-              'f18bc-b5fcd-7031d-843a3-a5cdb'
-              ':86f45-bcb6d-62601-f8084-61eb5-e34e3'))}');
-
-      final HttpClientResponse response = await request.close();
-
-      final String responseString =
-          await response.transform(utf8.decoder).join();
-
-      final listImages =
-          ImagesListShutterStock.fromJson(jsonDecode(responseString));
-
-      setImages = listImages.data;
-
-      return listImages;
+      await _apiService
+          .getHttp(path: '/v2/images/search', queryParameters: queryParameters)
+          .then((response) {
+        final listImages =
+            ImagesListShutterStock.fromJson(jsonDecode(response));
+        setImages = listImages.data;
+      }).catchError((e) {
+        setError = ErrorProvider(e.message, pageNumber);
+        throw e;
+      });
     } catch (e) {
       setError = ErrorProvider(e.message, pageNumber);
       throw e;
