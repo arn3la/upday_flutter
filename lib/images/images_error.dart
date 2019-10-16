@@ -48,7 +48,8 @@ class ImagesError extends StatelessWidget {
                         content: Text(
                             FlutterI18n.translate(context, 'error_loading')),
                       ))),
-              child: Text(FlutterI18n.translate(context, 'button_try_again')),
+              child: Text(FlutterI18n.translate(context, 'button_try_again')
+                  .toUpperCase()),
               color: Colors.deepOrange,
               textColor: Colors.white,
               shape: RoundedRectangleBorder(
