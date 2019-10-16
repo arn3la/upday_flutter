@@ -27,6 +27,7 @@ class ImagesProvider extends ChangeNotifier {
   }
 
   Future<dynamic> getData(int pageNumber) async {
+    print('#### PAGE NUMBER IS: $pageNumber');
     try {
       final _apiService = ApiService();
       final Map<String, String> queryParameters = {

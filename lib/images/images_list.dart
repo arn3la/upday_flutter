@@ -4,6 +4,8 @@ import 'package:jasarevic_arnela/providers/images_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'images_error.dart';
+import 'widgets/image_item.dart';
+import 'widgets/image_list_error.dart';
 import 'widgets/image_loading.dart';
 
 class MainPage extends StatefulWidget {
@@ -12,98 +14,71 @@ class MainPage extends StatefulWidget {
 }
 
 class _MainPageState extends State<MainPage> {
-  final GlobalKey<ScaffoldState> scaffoldKey = GlobalKey<ScaffoldState>();
-  int pageNumber = 1;
-  int visitedIndex = 0;
-  int currentIndex = 0;
-  ImagesProvider provider;
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  int _pageNumber = 2;
+  int _visitedIndex = 0;
 
   @override
   void initState() {
     super.initState();
 
-    provider = Provider.of<ImagesProvider>(context, listen: false);
-    provider.getData(1);
+    Provider.of<ImagesProvider>(context, listen: false).getData(1);
   }
 
   @override
   Widget build(BuildContext context) {
     print('BUILD IS CALLED ##');
     return Scaffold(
-      key: scaffoldKey,
+      key: _scaffoldKey,
       appBar: AppBar(
         title: Text(FlutterI18n.translate(context, 'images_list_title')),
       ),
       body: Consumer(
-        builder: (context, ImagesProvider provider, _) => provider.getError !=
-                    null &&
-                (provider.getImages == null || provider.getImages.isEmpty)
-            ? ImagesError(scaffoldKey)
-            : provider.getImages != null && provider.getImages.isNotEmpty
-                ? OrientationBuilder(
-                    builder: (context, orientation) => Stack(
-                      children: <Widget>[
-                        GridView.builder(
-                          padding:
-                              EdgeInsets.only(left: 12, top: 12, right: 12),
-                          gridDelegate:
-                              SliverGridDelegateWithFixedCrossAxisCount(
-                                  crossAxisCount:
-                                      (orientation == Orientation.portrait)
-                                          ? 2
-                                          : 3),
-                          itemCount: provider.getImages.length,
-                          itemBuilder: (BuildContext context, int index) {
-                            final int listLength =
-                                provider.getImages.length ?? 0;
-                            currentIndex = index;
-                            if (listLength - 1 - index == 15 &&
-                                listLength > 29) {
-                              try {
-                                provider.getData(pageNumber);
-                                if (visitedIndex < index) {
-                                  pageNumber++;
+        builder: (context, ImagesProvider provider, _) =>
+            provider.getError != null &&
+                    (provider.getImages == null || provider.getImages.isEmpty)
+                ? ImagesError(_scaffoldKey)
+                : provider.getImages != null && provider.getImages.isNotEmpty
+                    ? OrientationBuilder(
+                        builder: (context, orientation) => Stack(
+                          children: <Widget>[
+                            GridView.builder(
+                              padding:
+                                  EdgeInsets.only(left: 12, top: 12, right: 12),
+                              gridDelegate:
+                                  SliverGridDelegateWithFixedCrossAxisCount(
+                                      crossAxisCount:
+                                          (orientation == Orientation.portrait)
+                                              ? 2
+                                              : 3),
+                              itemCount: provider.getImages.length ?? 0,
+                              itemBuilder: (BuildContext context, int index) {
+                                final int listLength =
+                                    provider.getImages.length ?? 0;
+                                if (listLength - 1 - index == 15 &&
+                                    listLength > 29) {
+                                  try {
+                                    provider.getData(_pageNumber);
+                                    if (_visitedIndex < index) {
+                                      _pageNumber++;
+                                    }
+                                    _visitedIndex = index;
+                                  } catch (e) {
+                                    print(e);
+                                  }
                                 }
-                                visitedIndex = index;
-                              } catch (e) {
-                                print(e);
-                              }
-                            }
-                            if (listLength - index <= 2) {
-                              return ImageLoading();
-                            } else {
-                              return Container(
-                                child: FadeInImage.assetNetwork(
-                                  fit: BoxFit.cover,
-                                  placeholder: 'assets/placeholder.png',
-                                  image: provider.getImages[index]
-                                      .assets['huge_thumb'].url,
-                                ),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.white, width: 4)),
-                              );
-                            }
-                          },
-                        ),
-                        if (provider.getError != null)
-                          IgnorePointer(
-                              child: Center(
-                            child: Container(
-                              padding: EdgeInsets.all(24),
-                              child: Text(
-                                FlutterI18n.translate(context, 'error_loading'),
-                                style: TextStyle(color: Colors.white),
-                              ),
-                              decoration: BoxDecoration(
-                                  color: Color(0xFF000000),
-                                  borderRadius: BorderRadius.circular(24)),
+                                if (listLength - index <= 2) {
+                                  return ImageLoading();
+                                }
+                                return ImageItem(provider
+                                    .getImages[index].assets['huge_thumb'].url);
+                              },
                             ),
-                          )),
-                      ],
-                    ),
-                  )
-                : Container(),
+                            if (provider.getError != null) ImageListError(),
+                          ],
+                        ),
+                      )
+                    : Container(),
       ),
     );
   }
