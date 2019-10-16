@@ -4,6 +4,7 @@ import 'package:jasarevic_arnela/providers/images_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'images_error.dart';
+import 'widgets/image_loading.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -59,26 +60,17 @@ class _MainPageState extends State<MainPage> {
                             if (listLength - 1 - index == 15 &&
                                 listLength > 29) {
                               try {
-                                provider
-                                    .getData(pageNumber)
-                                    .then((result) => (visitedIndex = index));
+                                provider.getData(pageNumber);
                                 if (visitedIndex < index) {
                                   pageNumber++;
                                 }
+                                visitedIndex = index;
                               } catch (e) {
                                 print(e);
                               }
                             }
                             if (listLength - index <= 2) {
-                              return Container(
-                                child: Image.asset(
-                                  'assets/placeholder.png',
-                                  fit: BoxFit.cover,
-                                ),
-                                decoration: BoxDecoration(
-                                    border: Border.all(
-                                        color: Colors.white, width: 4)),
-                              );
+                              return ImageLoading();
                             } else {
                               return Container(
                                 child: FadeInImage.assetNetwork(
