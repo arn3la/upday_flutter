@@ -4,7 +4,6 @@ import 'package:jasarevic_arnela/providers/images_provider.dart';
 import 'package:provider/provider.dart';
 
 import 'images_error.dart';
-import 'images_loading.dart';
 
 class MainPage extends StatefulWidget {
   @override
@@ -35,10 +34,11 @@ class _MainPageState extends State<MainPage> {
         title: Text(FlutterI18n.translate(context, 'images_list_title')),
       ),
       body: Consumer(
-        builder: (context, ImagesProvider provider, _) => provider.getError ==
-                    null ||
-                provider.getError.pageNumber > 1
-            ? provider.getImages != null && provider.getImages.length > 1
+        builder: (context, ImagesProvider provider, _) => provider.getError !=
+                    null &&
+                (provider.getImages == null || provider.getImages.isEmpty)
+            ? ImagesError(scaffoldKey)
+            : provider.getImages != null && provider.getImages.isNotEmpty
                 ? OrientationBuilder(
                     builder: (context, orientation) => Stack(
                       children: <Widget>[
@@ -94,8 +94,7 @@ class _MainPageState extends State<MainPage> {
                             }
                           },
                         ),
-                        if (provider.getError != null &&
-                            provider.getError.pageNumber > 1)
+                        if (provider.getError != null)
                           IgnorePointer(
                               child: Center(
                             child: Container(
@@ -112,8 +111,7 @@ class _MainPageState extends State<MainPage> {
                       ],
                     ),
                   )
-                : Center(child: ImageLoader())
-            : ImagesError(scaffoldKey),
+                : Container(),
       ),
     );
   }

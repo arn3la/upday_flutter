@@ -9,11 +9,11 @@ const String _numberOfElementsPerPage = '30';
 
 class ImagesProvider extends ChangeNotifier {
   final List<ImageVersionShutterStock> _images = [];
-  ErrorProvider _error;
+  String _error;
 
   List<ImageVersionShutterStock> get getImages => _images;
 
-  ErrorProvider get getError => _error;
+  String get getError => _error;
 
   set setImages(List<ImageVersionShutterStock> images) {
     _images.addAll(images);
@@ -21,7 +21,7 @@ class ImagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  set setError(ErrorProvider error) {
+  set setError(String error) {
     _error = error;
     notifyListeners();
   }
@@ -39,20 +39,10 @@ class ImagesProvider extends ChangeNotifier {
         final listImages =
             ImagesListShutterStock.fromJson(jsonDecode(response));
         setImages = listImages.data;
-      }).catchError((e) {
-        setError = ErrorProvider(e.message, pageNumber);
-        throw e;
       });
     } catch (e) {
-      setError = ErrorProvider(e.message, pageNumber);
+      setError = e.message;
       throw e;
     }
   }
-}
-
-class ErrorProvider {
-  final String error;
-  final int pageNumber;
-
-  ErrorProvider(this.error, this.pageNumber);
 }
