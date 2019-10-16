@@ -71,10 +71,9 @@ class _MainPageState extends State<MainPage> {
                             }
                             if (listLength - index <= 2) {
                               return Container(
-                                child: FadeInImage.assetNetwork(
+                                child: Image.asset(
+                                  'assets/placeholder.png',
                                   fit: BoxFit.cover,
-                                  placeholder: 'assets/placeholder.png',
-                                  image: '',
                                 ),
                                 decoration: BoxDecoration(
                                     border: Border.all(
