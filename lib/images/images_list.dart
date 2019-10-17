@@ -74,7 +74,11 @@ class _MainPageState extends State<MainPage> {
                                     .getImages[index].assets['huge_thumb'].url);
                               },
                             ),
-                            if (provider.getError != null) ImageListError(),
+                            if (provider.getError != null)
+                              ImageListError(
+                                  () => provider.getData(_pageNumber).then((_) {
+                                        _pageNumber++;
+                                      })),
                           ],
                         ),
                       )

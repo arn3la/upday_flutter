@@ -2,18 +2,30 @@ import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
 class ImageListError extends StatelessWidget {
+  final Function _onPressed;
+
+  ImageListError(this._onPressed);
+
   @override
-  Widget build(BuildContext context) => IgnorePointer(
-          child: Center(
-        child: Container(
-          padding: EdgeInsets.all(24),
-          child: Text(
-            FlutterI18n.translate(context, 'error_loading'),
-            style: TextStyle(color: Colors.white),
-          ),
-          decoration: BoxDecoration(
-              color: Color(0xFF000000),
-              borderRadius: BorderRadius.circular(24)),
+  Widget build(BuildContext context) => Container(
+        padding: EdgeInsets.symmetric(horizontal: 16),
+        height: 70,
+        color: Colors.black,
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: <Widget>[
+            Text(
+              FlutterI18n.translate(context, 'error_loading'),
+              style: TextStyle(color: Colors.white),
+            ),
+            FlatButton(
+              onPressed: _onPressed,
+              child: Text(
+                FlutterI18n.translate(context, 'button_try_again'),
+                style: TextStyle(color: Colors.deepOrange),
+              ),
+            )
+          ],
         ),
-      ));
+      );
 }
