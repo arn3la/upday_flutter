@@ -31,6 +31,11 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_launcher_icons: ^0.7.3
+  mockito: ^4.1.1
+  transparent_image: ^1.0.0
+  flutter_driver:
+    sdk: flutter
+  test: any
 
 flutter_icons:
   android: true
@@ -53,6 +58,7 @@ flutter:
     - assets/error.png
     - assets/flutter_i18n/
     - assets/app_icon.jpg
+    - test_source/images_one_object.json
 
   # To add assets to your application, add an assets section, like this:
   # assets:

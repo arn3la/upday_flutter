@@ -28,6 +28,8 @@ class ImagesProvider extends ChangeNotifier {
 
   int get getVisitedIndex => _visitedIndex;
 
+  int get getCurrentIndex => _currentIndex;
+
   set setImages(List<ImageVersionShutterStock> images) {
     _images.addAll(images);
     _error = null;
@@ -41,6 +43,14 @@ class ImagesProvider extends ChangeNotifier {
 
   set setPageNumber(int pageNumber) {
     _pageNumber = pageNumber;
+  }
+
+  set setCurrentIndex(int index) {
+    _currentIndex = index;
+  }
+
+  set setVisitedIndex(int visitedIndex) {
+    _visitedIndex = visitedIndex;
   }
 
   /// Fetch data from API service and parse response to list of images

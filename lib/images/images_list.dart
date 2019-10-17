@@ -28,6 +28,7 @@ class MainPage extends StatelessWidget {
           builder: (context, orientation) => Stack(
             children: <Widget>[
               GridView.builder(
+                key: Key('gridview_key'),
                 padding: EdgeInsets.only(left: 12, top: 12, right: 12),
                 gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount:
