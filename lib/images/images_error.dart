@@ -3,6 +3,7 @@ import 'package:flutter_i18n/flutter_i18n.dart';
 import 'package:jasarevic_arnela/providers/images_provider.dart';
 import 'package:provider/provider.dart';
 
+/// Show error when there is no data in the list of images
 class ImagesError extends StatelessWidget {
   final GlobalKey<ScaffoldState> scaffoldKey;
 
@@ -17,23 +18,16 @@ class ImagesError extends StatelessWidget {
             height: 200,
             width: 300,
           ),
-          SizedBox(height: 30),
-          Center(
-            child: Text(
-              FlutterI18n.translate(context, 'images_error_title'),
-              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 32),
-            ),
+          _buildInfoText(
+            FlutterI18n.translate(context, 'images_error_title'),
+            marginTop: 30,
+            textStyle: TextStyle(fontWeight: FontWeight.w600, fontSize: 32),
           ),
-          SizedBox(height: 10),
-          Center(
-            child: Text(
-              FlutterI18n.translate(context, 'images_error_description_1'),
-            ),
+          _buildInfoText(
+            FlutterI18n.translate(context, 'images_error_description_1'),
           ),
-          SizedBox(height: 10),
-          Center(
-            child: Text(
-                FlutterI18n.translate(context, 'images_error_description_2')),
+          _buildInfoText(
+            FlutterI18n.translate(context, 'images_error_description_2'),
           ),
           Container(
             margin: EdgeInsets.symmetric(
@@ -59,5 +53,16 @@ class ImagesError extends StatelessWidget {
             ),
           ),
         ],
+      );
+
+  _buildInfoText(String text, {TextStyle textStyle, double marginTop}) =>
+      Container(
+        margin: EdgeInsets.only(top: marginTop ?? 10),
+        child: Center(
+          child: Text(
+            text,
+            style: textStyle,
+          ),
+        ),
       );
 }

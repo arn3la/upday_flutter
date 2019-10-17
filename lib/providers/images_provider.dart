@@ -8,12 +8,25 @@ import 'package:jasarevic_arnela/models/images_list.dart';
 const String _numberOfElementsPerPage = '30';
 
 class ImagesProvider extends ChangeNotifier {
+  ImagesProvider() {
+    getData(1);
+  }
+
   final List<ImageVersionShutterStock> _images = [];
   String _error;
+  int _pageNumber = 2;
+
+  // Last index from which getData is called for pagination
+  int _visitedIndex = 0;
+  int _currentIndex = 0;
 
   List<ImageVersionShutterStock> get getImages => _images;
 
   String get getError => _error;
+
+  int get getPageNumber => _pageNumber;
+
+  int get getVisitedIndex => _visitedIndex;
 
   set setImages(List<ImageVersionShutterStock> images) {
     _images.addAll(images);
@@ -26,8 +39,12 @@ class ImagesProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  set setPageNumber(int pageNumber) {
+    _pageNumber = pageNumber;
+  }
+
+  /// Fetch data from API service and parse response to list of images
   Future<dynamic> getData(int pageNumber) async {
-    print('#### PAGE NUMBER IS: $pageNumber');
     try {
       final _apiService = ApiService();
       final Map<String, String> queryParameters = {
@@ -46,4 +63,34 @@ class ImagesProvider extends ChangeNotifier {
       throw e;
     }
   }
+
+  /// Based on the index of every image, decide will new data be fetched
+  void onIndexChanged(int index) {
+    _currentIndex = index;
+    if (shouldFetchNewData()) {
+      try {
+        getData(_pageNumber).then((_) {
+          _pageNumber++;
+        });
+        _visitedIndex = index;
+      } catch (e) {
+        print(e);
+      }
+    }
+  }
+
+  @visibleForTesting
+  bool shouldFetchNewData() {
+    final int listLength = getImages.length ?? 0;
+    return listLength - 1 - _currentIndex == 15 &&
+        listLength > 29 &&
+        _visitedIndex < _currentIndex;
+  }
+
+  /// Based on the condition, show loader or item of the list
+  bool isLoadingRowVisible() => getImages.length - _currentIndex <= 2;
+
+  /// If error exist and there is no data in the list, show error
+  bool showErrorOnEmptyList() =>
+      getError != null && (getImages == null || getImages.isEmpty);
 }

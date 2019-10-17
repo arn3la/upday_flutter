@@ -6,7 +6,7 @@ class ApiService {
   final _basicAuth = 'Basic ${base64Encode(utf8.encode('0222c-f18bc-b5fcd-7031d'
       '-843a3-a5cdb:86f45-bcb6d-62601-f8084-61eb5-e34e3'))}';
 
-  // Returns true for every success HTTP code
+  /// Returns true for every success HTTP code
   bool isStatusCodeSuccess(int currentStatusCode) {
     switch (currentStatusCode) {
       case HttpStatus.ok:

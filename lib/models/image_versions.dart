@@ -1,4 +1,4 @@
-import 'image_values.dart';
+import 'package:jasarevic_arnela/models/image_values.dart';
 
 class ImageVersionShutterStock {
   String id;
@@ -21,8 +21,6 @@ class ImageVersionShutterStock {
     final Map<String, ImageValuesShutterStock> assetList = {};
     final Map<String, dynamic> asset = json['assets'];
 
-    assetList['large_thumb'] =
-        ImageValuesShutterStock.fromJson(asset['large_thumb']);
     assetList['huge_thumb'] =
         ImageValuesShutterStock.fromJson(asset['huge_thumb']);
 

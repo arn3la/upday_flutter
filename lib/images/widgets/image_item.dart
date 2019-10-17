@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// Image item in the list
 class ImageItem extends StatelessWidget {
   final String url;
 
@@ -12,7 +13,8 @@ class ImageItem extends StatelessWidget {
           placeholder: 'assets/placeholder.png',
           image: url,
         ),
-        decoration:
-            BoxDecoration(border: Border.all(color: Colors.white, width: 4)),
+        decoration: BoxDecoration(
+          border: Border.all(color: Colors.white, width: 4),
+        ),
       );
 }

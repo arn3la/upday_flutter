@@ -1,4 +1,4 @@
-import 'image_versions.dart';
+import 'package:jasarevic_arnela/models/image_versions.dart';
 
 class ImagesListShutterStock {
   int page;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n.dart';
 
+/// In case that the list of images is not empty,
+/// show error on the top of screen, with option try again
 class ImageListError extends StatelessWidget {
   final Function _onPressed;
 

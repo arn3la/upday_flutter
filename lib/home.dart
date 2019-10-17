@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_i18n/flutter_i18n_delegate.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
+import 'package:jasarevic_arnela/images/images_list.dart';
 import 'package:jasarevic_arnela/providers/images_provider.dart';
 import 'package:provider/provider.dart';
-import 'images/images_list.dart';
 
 class MyApp extends StatelessWidget {
   @override

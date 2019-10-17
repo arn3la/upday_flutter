@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+/// If the list is loading, show images with loading indicator
 class ImageLoading extends StatefulWidget {
   @override
   createState() => _ImageLoadingState();
