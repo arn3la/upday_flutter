@@ -4,6 +4,7 @@ import 'package:test/test.dart';
 void main() {
   // Define elements for controlling
   final gridView = find.byValueKey('gridview_key');
+  final imageItem = find.byType('ImageItem');
 
   FlutterDriver driver;
 
@@ -22,6 +23,7 @@ void main() {
   test(
       'Scroll list to some point to call API points in middle,'
       'idea is to test infinitive scrolling from user', () async {
+    await driver.waitFor(imageItem);
     await driver.scroll(gridView, 0, -10000, Duration(seconds: 8));
   });
 }

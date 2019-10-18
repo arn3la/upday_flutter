@@ -44,7 +44,7 @@ $ flutter test
 ```
 - To run integration test, use this command:
 ```sh
-$ flutter driver -t test_driver/app.dart
+$ flutter driver -t test_driver/main.dart
 ```
 
 ## Attention
