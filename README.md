@@ -5,11 +5,6 @@
 **Shutterstock - private app** is the mobile application that fetches pictures from the Shutterstock API and displays them in an infinite scrollable view.
 The app is created in the Flutter framework, so there is a version for Android and iOS.
 
-## Screenshots
-| Main page | Main page with error when there is no items in the list | Main page with error when there is already loaded items in the list |
-| ------ | ------ | ------ |
-| [![NSolid](https://assets.themuse.com/uploaded/companies/1147/small_logo.png?v=9cfbf5459e8298ad3844d0a9db881747780e9ab472040ebde47fe885560dba32)](https://developers.shutterstock.com/) | [![NSolid](https://assets.themuse.com/uploaded/companies/1147/small_logo.png?v=9cfbf5459e8298ad3844d0a9db881747780e9ab472040ebde47fe885560dba32)](https://developers.shutterstock.com/) | [![NSolid](https://assets.themuse.com/uploaded/companies/1147/small_logo.png?v=9cfbf5459e8298ad3844d0a9db881747780e9ab472040ebde47fe885560dba32)](https://developers.shutterstock.com/)
-
 ## Technical details
 1.  [Flutter](https://flutter.dev/)
    The app is created in the Flutter framework backed by Google for cross-mobile development.
@@ -36,24 +31,21 @@ The application is using [Shutterstock API](https://api-explorer.shutterstock.co
 The API **'v2/images/search'** which is used in this app, can have parameters "per_page" and "page" if clients want to create smooth infinite scrolling with pagination. If these parameters are not defined, API returns 20 items by default.
 
 ## Tests
-This application is covered with 3 types of testing:
+This application is covered with 3 types of tests:
 - unit
-```sh
-// Example
-CODE
-```
 - widget
-```sh
-// Example
-CODE
-```
 - integration
-```sh
-// Example
-CODE
-```
 
-- Libraries - provider: ^3.1.0
+Libraries - mockito, transparent_image, flutter_test, test,  flutter_driver
+
+- To run unit and widget test, use this command:
+```sh
+$ flutter test
+```
+- To run integration test, use this command:
+```sh
+$ flutter driver -t test_driver/app.dart
+```
 
 ## Attention
 * The application is not tested on the iOS device and tablets.
